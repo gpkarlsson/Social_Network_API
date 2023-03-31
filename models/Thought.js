@@ -1,22 +1,32 @@
-const Schema = require('mongoose');
+const { Schema, model } = require('mongoose');
+const reactionSchema = require('./Reaction');
+const formatDate = require('../utils/formatDate');
 
 const thoughtSchema = new mongoose.Schema(
     {
         thoughtText: {
             type: String,
             required: true,
-            //between 1 and 280 chars
+            minLength: 1,
+            maxlength: 280,
         },
         createdAt: {
             type: Date,
-            default: putSomethingHere, //timestamp
+            default: Date.now,
+            get: (timestamp) => formatDate(timestamp)
+            //timestamp
             //getter method to format timestamp on query
         },
         username: {
             type: String,
             required: true,
         },
-        reactions: {
-            //array of nested docs created with the reactionSchema
-        }
-    })
+        reactions: [reactionSchema],
+    },
+    {
+        toJSON: {
+            getters: true,
+        },
+        id: false,
+    }
+);

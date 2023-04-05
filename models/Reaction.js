@@ -5,7 +5,8 @@ const formatDate = require('../utils/formatDate');
 const reactionSchema = new Schema(
   {
     reactionId: {
-      type: ObjectId,
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
       //???
       
     },
@@ -26,6 +27,6 @@ const reactionSchema = new Schema(
   }
 )
 
-module.exports = mongoose.model("Reaction", Schema)
+module.exports = reactionSchema;
 
-//! not a model, but used in reaction field's subdocument schema in the Thought model. Move to Thought.js !!!
+//! not a model, but used in reaction field's subdocument schema in the Thought model. Move to Thought.js ???

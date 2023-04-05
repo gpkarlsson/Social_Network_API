@@ -4,6 +4,7 @@ const {
   getUsers,
   getSingleUser,
   createUser,
+  updateUser,
   deleteUser
 } = require('../../controllers/userControllers');
 

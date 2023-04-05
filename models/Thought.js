@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const Schema = mongoose.Schema;
 const reactionSchema = require('./Reaction');
 const formatDate = require('../utils/formatDate');
 
@@ -30,3 +31,5 @@ const thoughtSchema = new mongoose.Schema(
         id: false,
     }
 );
+
+module.exports = mongoose.model("Thought", Schema);

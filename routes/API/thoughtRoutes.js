@@ -6,11 +6,11 @@ const {
 } = require('../../controllers/thoughtControllers')
 
 router
-  .route('/api/thought')
+  .route('/api/thoughts')
   .get(getThoughts)
   .post(createThought);
 
 router
-  .route('/api/thought/:userId')
+  .route('/api/thoughts/:userId')
   .get(getSingleThought)
   .post(createThought);

@@ -1,7 +1,7 @@
 const { User, Reaction, Thought } = require('../models');
 
 //ROUTE
-module.exports = {
+const thoughtControllers = {
   getThoughts(req, res) {
     Thought.find()
       .sort({ createdAt: -1 })
@@ -74,7 +74,7 @@ module.exports = {
           return res.status(404).json({ message: "No thought found with this ID" });
         }
 
-        //Remove Thought ID from user's 
+        //Remove Thought ID from user's 'thoughts' field
         return User.findOneAndUpdate(
           { thoughts: req.params.thoughtId },
           { $pull: { thoughts: req.params.thoughtId } },
@@ -91,10 +91,26 @@ module.exports = {
         console.log(err);
         res.status(500).json(err);
       })
-    // Remove thought ID from User 'thoughts' field
   },
 
-
+  //Add reaction to Thought
+  addReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
+          return res.status(404).json({ message: "No thought found with this ID" });
+        }
+        res.json(dbThoughtData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
 
   //Remove reaction from Thought
   removeReaction(req, res) {

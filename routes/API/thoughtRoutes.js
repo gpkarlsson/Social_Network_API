@@ -8,7 +8,7 @@ const {
 } = require('../../controllers/thoughtControllers')
 
 router
-  .route('/thoughts')
+  .route('/')
   .get(getThoughts)
   .post(createThought);
 

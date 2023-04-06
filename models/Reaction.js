@@ -7,26 +7,28 @@ const reactionSchema = new Schema(
     reactionId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId(),
-      //???
-      
     },
     reactionBody: {
       type: String,
       required: true,
-      maxLength: 280
+      maxLength: 280,
     },
     username: {
       type: String,
-      required: true
+      required: true,
     },
     createdAt: {
       type: Date,
       default: Date.now,
       get: (timestamp) => formatDate(timestamp)
-    }
+    },
+  },
+  {
+    toJSON: {
+      getters: true,
+    },
+    id: false,
   }
-)
+);
 
 module.exports = reactionSchema;
-
-//! not a model, but used in reaction field's subdocument schema in the Thought model. Move to Thought.js ???

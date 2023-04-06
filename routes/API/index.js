@@ -1,10 +1,8 @@
 const router = require('express').Router();
-const apiRoutes = require('./API');
+const userRoutes = require('./userRoutes');
+const thoughtRoutes = require('./thoughtRoutes');
 
-router.use('/api/', apiRoutes);
-
-router.use((req, res) => {
-    return res.send("Wrong Route!");
-});
+router.use('/users', userRoutes);
+router.use('/thoughts', thoughtRoutes);
 
 module.exports = router;

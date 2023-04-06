@@ -120,7 +120,7 @@ const thoughtControllers = {
       { runValidators: true, new: true }
     )
       .then((dbThoughtData) => {
-        if (!dbThoughtData) {
+        if (!dbThoughtData) { 
           return res.status(404).json({ message: "No thought found with this ID" });
         }
         res.json(dbThoughtData);
@@ -132,7 +132,7 @@ const thoughtControllers = {
   },
 };
 
-module.exports = thoughtController;
+module.exports = thoughtControllers;
 //! /api/thoughts
 
   // get all thoughts

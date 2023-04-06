@@ -76,7 +76,7 @@ const userControllers = {
       });
   },
 
-  addFriend(req, res) {
+  createFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $addToSet: { friends: req.params.friendId } },
@@ -94,7 +94,7 @@ const userControllers = {
     });
   },
 
-  removeFriend(req, res) {
+  deleteFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },

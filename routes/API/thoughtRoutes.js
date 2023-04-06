@@ -19,3 +19,5 @@ router
 router
   .route('/:thoughtId/reactions')
   .post(addReaction)
+
+  module.exports = router;

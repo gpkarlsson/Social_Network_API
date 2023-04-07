@@ -68,18 +68,20 @@ const userControllers = {
     User.findOneAndDelete({ _id: req.params.userId })
       .then((dbUserData) => {
         if (!dbUserData) {
-          return res.status(404).json({ message: "No user found with this ID" })
+          return res.status(404).json({ message: "No User found with this ID" });
         }
+        // Get User's `thoughts` IDs and delete them all
         return Thought.deleteMany({ _id: { $in: dbUserData.thoughts } });
       })
       .then(() => {
-        res.json({ message: "User and associated thoughts deleted" })
+        res.json({ message: "User and thoughts deleted!" });
       })
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
       });
   },
+
 
   createFriend(req, res) {
     User.findOneAndUpdate(

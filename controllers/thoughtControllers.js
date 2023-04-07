@@ -5,22 +5,25 @@ const thoughtControllers = {
   getThoughts(req, res) {
     Thought.find()
       .sort({ createdAt: -1 })
-      .then((thoughts) => res.json(thoughts))
-      .catch((err) => res.status(500).json(err));
+      .then((dbThoughtData) => {
+        res.json(dbThoughtData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
-  // Find one thought
   getSingleThought(req, res) {
-    Thought.findOne(
-      { _id: req.params.thoughtId })
+    Thought.findOne({ _id: req.params.thoughtId })
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          return res.status(404).json({ message: "No thought found with this id" });
+          return res.status(404).json({ message: "No thought with this id!" });
         }
         res.json(dbThoughtData);
       })
       .catch((err) => {
         console.log(err);
-        res.status(500).json(err)
+        res.status(500).json(err);
       });
   },
 
@@ -133,14 +136,3 @@ const thoughtControllers = {
 };
 
 module.exports = thoughtControllers;
-//! /api/thoughts
-
-  // get all thoughts
-
-  //get a single thought by its _id
-
-  // POST to create a new thought (push created thought's _id to associated user's thoughts array field ( $set i think? ))
-
-
-//! /api/thoughts/:thoughtId/reactions
-  // POST to creaet a reaction stored in a singel thought's reactions array field

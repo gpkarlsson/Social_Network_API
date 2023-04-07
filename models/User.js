@@ -1,6 +1,6 @@
+const { Schema, model } = require('mongoose');
 const mongoose = require('mongoose');
-
-const Schema = mongoose.Schema;
+const Thought = require('./Thought');
 
 const userSchema = new Schema(
     {
@@ -19,7 +19,7 @@ const userSchema = new Schema(
       thoughts: [
         {
           type: Schema.Types.ObjectId,
-          ref: "Thought",
+          ref: Thought,
         },
       ],
       friends: [

@@ -14,7 +14,8 @@ router.route('/api/users').get(getUsers).post(createUser);
 
 router
   .route('/')
-  .get(getUsers);
+  .get(getUsers)
+  .post(createUser)
 
 router
   .route('/:userId')

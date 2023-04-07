@@ -64,14 +64,14 @@ module.exports = (
         dayOfMonth = dateObject.getDate();
     }
 
-    const year = dateObj.getFullYear();
+    const year = dateObject.getFullYear();
 
     let hour;
 
     if (dateObject.getHours > 12) {
         hour = Math.floor(dateObject.getHours() / 2);
     } else {
-        hour = dateObj.getHours();
+        hour = dateObject.getHours();
     }
 
     if (hour === 0) {
@@ -81,7 +81,7 @@ module.exports = (
     const minutes = dateObject.getMinutes
     let timeOfDay;
 
-    if (dateObj.getHours() >= 12) {
+    if (dateObject.getHours() >= 12) {
         timeOfDay = "pm";
     } else {
         timeOfDay = "am";

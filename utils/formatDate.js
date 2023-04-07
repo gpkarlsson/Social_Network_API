@@ -78,7 +78,8 @@ module.exports = (
         hour = 12;
     }
 
-    const minutes = dateObject.getMinutes
+    const minutes = dateObject.getMinutes();
+    
     let timeOfDay;
 
     if (dateObject.getHours() >= 12) {

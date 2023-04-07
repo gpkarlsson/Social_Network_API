@@ -1,4 +1,6 @@
 const { User, Reaction, Thought } = require('../models');
+const mongoose = require('mongoose');
+const reactionSchema = require('../models/Reaction');
 
 //ROUTE
 const thoughtControllers = {
@@ -88,18 +90,20 @@ const thoughtControllers = {
         if (!dbUserData) {
           return res.status(404).json({ message: "Thought created, no User found with this ID" })
         }
-        res.json({ message: "Successfully created thought" })
+        res.json({ message: "Successfully deleted thought" })
       })
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
-      })
+      });
   },
 
   //Add reaction to Thought
   addReaction(req, res) {
+    // const newReaction = { ...req.body, reactionId: new mongoose.Types.ObjectId() }
+    console.log(req.params.thoughtId)
     Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
+      { _id: mongoose.Types.ObjectId(req.params.thoughtId) },
       { $addToSet: { reactions: req.body } },
       { runValidators: true, new: true }
     )
@@ -117,21 +121,34 @@ const thoughtControllers = {
 
   //Remove reaction from Thought
   removeReaction(req, res) {
-    Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $pull: { reactions: { reactionId: req.params.reactionId } } },
-      { runValidators: true, new: true }
-    )
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) { 
+    //   Thought.deleteOne(
+    //   { _id: req.params.thoughtId },
+    //   { $pull: { reactions: { reactionId: req.params.reactionId } } },
+    //   { runValidators: true, new: true }
+    // )
+    //   .then((dbThoughtData) => {
+    //     if (!dbThoughtData) { 
+    //       return res.status(404).json({ message: "No thought found with this ID" });
+    //     }
+    //     res.json(dbThoughtData);
+    //   })
+    Thought.deleteOne(
+      { _id: req.params.thoughtId, "reactions.reactionId": req.params.reactionId },
+      function(err, dbThoughtData) {
+        if (err) {
+          console.log(err);
+          return res.status(500).json(err);
+        }
+        if (!dbThoughtData) {
           return res.status(404).json({ message: "No thought found with this ID" });
         }
         res.json(dbThoughtData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+      }
+    )
+      //   .catch((err) => {
+      //   console.log(err);
+      //   res.status(500).json(err);
+      // });
   },
 };
 

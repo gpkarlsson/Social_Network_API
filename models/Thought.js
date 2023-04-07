@@ -1,8 +1,9 @@
-const { Schema, model } = require('mongoose');
+const { model } = require('mongoose')
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;``
 const reactionSchema = require('./Reaction');
 const formatDate = require('../utils/formatDate');
-
+const Types  = mongoose.Sche; // Import Types object from mongoose
 const thoughtSchema = new mongoose.Schema(
     {
         thoughtText: {

@@ -36,9 +36,13 @@ const userControllers = {
   // POST a new user
   createUser(req, res) {
     User.create(req.body)
-      .then(console.log(req.body))
-      .then((dbUserData) => res.json(dbUserData))
-      .catch((err) => res.status(500).json(err));
+      .then((dbUserData) => {
+        res.json(dbUserData)
+        console.log(req.body)
+      })
+      .catch((err) => {
+        res.status(500).json(err)
+      });
   },
   // PUT to update a user by its _id
   updateUser(req, res) {
@@ -47,7 +51,7 @@ const userControllers = {
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((dbUserData) => {
+      .then((dbUserData) => {image.png
         if (!dbUserData) {
           return res.status(404).json({ message: "No User found with this ID" })
         }
@@ -83,25 +87,6 @@ const userControllers = {
       { $addToSet: { friends: req.params.friendId } },
       { new: true }
     )
-    .then ((dbUserData) => {
-      if (!dbUserData) {
-        return res.status(404).json({ message: "No user found with this ID" });
-      } 
-      res.json(dbUserData);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-  },
-
-  deleteFriend(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $pull: { friends: req.params.friendId } },
-      { new: true }
-    )
-    
       .then((dbUserData) => {
         if (!dbUserData) {
           return res.status(404).json({ message: "No user found with this ID" });
@@ -111,33 +96,27 @@ const userControllers = {
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
-    });
+      });
+  },
+
+  deleteFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    )
+
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          return res.status(404).json({ message: "No user found with this ID" });
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      })
   },
 };
 
 module.exports = userControllers;
-//ROUTES
-//TODO
-//!  /api/users
-
-
-
-//
-  // example data
-  // {
-  //   "username": "lernantino",
-  //   "email": "lernantino@gmail.com"
-  // }
-
-
-
-
-//BONUS: remove user's associated thoughts when deleted
-
-//! /api/users/:userId/friends/:friendId
-  // POST to add a new friend to a user's friend list (push into array)
-  //$set (?)
-  // DELETE to remove a friend from a user's friend list
-
-
-

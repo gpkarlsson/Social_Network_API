@@ -51,7 +51,7 @@ const userControllers = {
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((dbUserData) => {image.png
+      .then((dbUserData) => {
         if (!dbUserData) {
           return res.status(404).json({ message: "No User found with this ID" })
         }

@@ -83,42 +83,104 @@ const userControllers = {
   },
 
 
+  // createFriend(req, res) {
+  //   User.findOneAndUpdate(
+  //     { _id: req.params.userId },
+  //     { $addToSet: { friends: req.params.friendId } },
+  //     { new: true }
+  //   )
+  //     .then((dbUserData) => {
+  //       if (!dbUserData) {
+  //         return res.status(404).json({ message: "No user found with this ID" });
+  //       }
+  //       res.json(dbUserData);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       res.status(500).json(err);
+  //     });
+  // },
+  
   createFriend(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $addToSet: { friends: req.params.friendId } },
-      { new: true }
-    )
-      .then((dbUserData) => {
-        if (!dbUserData) {
+    User.findOne({ _id: req.params.userId })
+      .then((user) => {
+        if (!user) {
           return res.status(404).json({ message: "No user found with this ID" });
         }
-        res.json(dbUserData);
+
+        // Check if friendId is already in user's friend list
+        if (user.friends.includes(req.params.friendId)) {
+          return res.status(400).json({ message: "Friend relationship already exists" });
+        }
+
+        // Add friendId to user's friend list
+        user.friends.push(req.params.friendId);
+        return user.save();
+      })
+      .then((user) => {
+        // Check if userId is already in friend's friend list
+        return User.findOne({ _id: req.params.friendId });
+      })
+      .then((friend) => {
+        if (!friend) {
+          return res.status(404).json({ message: "No user found with this ID" });
+        }
+
+        if (friend.friends.includes(req.params.userId)) {
+          return res.status(400).json({ message: "Friend relationship already exists" });
+        }
+
+        // Add userId to friend's friend list
+        friend.friends.push(req.params.userId);
+        return friend.save();
+      })
+      .then((friend) => {
+        res.json({ message: "Friend relationship created" });
       })
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
       });
   },
+  
 
-  deleteFriend(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $pull: { friends: req.params.friendId } },
-      { new: true }
-    )
+//   deleteFriend(req, res) {
+//     User.findOneAndUpdate(
+//       { _id: req.params.userId },
+//       { $pull: { friends: req.params.friendId } },
+//       { new: true }
+//     )
 
-      .then((dbUserData) => {
-        if (!dbUserData) {
-          return res.status(404).json({ message: "No user found with this ID" });
-        }
-        res.json(dbUserData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      })
-  },
+//       .then((dbUserData) => {
+//         if (!dbUserData) {
+//           return res.status(404).json({ message: "No user found with this ID" });
+//         }
+//         res.json(dbUserData);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         res.status(500).json(err);
+//       })
+//   },
+// };
+
+deleteFriend(req, res) {
+  User.findOneAndUpdate(
+    { _id: req.params.userId },
+    { $pull: { friends: req.params.friendId } },
+    { new: true }
+  )
+    .then((dbUserData) => {
+      if (!dbUserData) {
+        return res.status(404).json({ message: "No user found with this ID" });
+      }
+      res.json(dbUserData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+  }
 };
 
 module.exports = userControllers;

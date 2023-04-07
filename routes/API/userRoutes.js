@@ -21,11 +21,11 @@ router
   .route('/:userId')
   .get(getSingleUser)
   .put(updateUser)
-  .post(createUser);
-
-router
-  .route('/users/:userId')
+  .post(createUser)
   .delete(deleteUser);
+
+// router
+//   .route('/users/:userId')
 
 //Create and Delete friends 
 router.route('/users/:userId/friends/:friendId')

@@ -1,8 +1,7 @@
  
 # MongoDB Social Network API
     
-![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)(https://opensource.org/licenses/MIT)
-
+![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ## Description
 A social network API created using MongoDB, Mongoose, and Express.js.
 
